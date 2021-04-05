@@ -69,7 +69,7 @@ RSpec.describe Marathon do
     describe 'main' do
       it 'relays first arg to subcommand and remaining args as a string' do
         expect(executor).to receive(:shell).with("bundle exec rspec --fail-fast")
-        run.main ["rspec", "--fail-fast"] # 'hello world'"
+        run.main ["rspec", "--fail-fast"]
       end
 
       it 'relays to shell command' do
@@ -80,7 +80,7 @@ RSpec.describe Marathon do
 
     describe 'basic utilities' do
       it 'echoes' do
-        expect(executor).to receive(:shell).with("echo 'hello'")
+        expect(executor).to receive(:shell).with("echo \"hello\"")
         run.say 'hello'
       end
     end
@@ -101,12 +101,22 @@ RSpec.describe Marathon do
       describe 'ruby' do
         it 'bundler' do
           expect(executor).to receive(:shell).with("bundle install")
-          run.bundle 'install'
+          run.bundle :install
         end
 
         it 'rspec' do
           expect(executor).to receive(:shell).with("bundle exec rspec --fail-fast")
           run.rspec '--fail-fast'
+        end
+
+        it 'rake' do
+          expect(executor).to receive(:shell).with("bundle exec rake some:task")
+          run.rake 'some:task'
+        end
+
+        it 'rails' do
+          expect(executor).to receive(:shell).with("bundle exec rails some:task")
+          run.rails 'some:task'
         end
       end
     end

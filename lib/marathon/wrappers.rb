@@ -1,19 +1,19 @@
 module Marathon
   module Wrappers
-    class << self
-      # wrap a simple command directly
-      def uses(*tools)
-        tools.each do |tool|
-          define_method(tool) do |command|
-            run "#{tool} #{command}"
-          end
-        end
-      end
+    def self.included(klass)
+      klass.uses :yarn, :bundle
     end
 
-    uses :yarn, :bundle
     def rspec(command='')
       bundle "exec rspec #{command}"
+    end
+
+    def rake(command='')
+      bundle "exec rake #{command}"
+    end
+
+    def rails(command='')
+      bundle "exec rails #{command}"
     end
 
     def jest(command='')

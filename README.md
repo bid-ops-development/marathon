@@ -29,7 +29,10 @@ Or install it yourself as:
 ```
 #!/usr/bin/env ruby
 
-require_relative '../lib/marathon'
+require 'bundler/inline'
+gemfile do
+  gem 'marathon', git: 'https://github.com/bid-ops-development/marathon'
+end
 
 class MyCustomRunner < Marathon::Runner
   def test
