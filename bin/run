@@ -1,0 +1,15 @@
+#!/usr/bin/env ruby
+
+require_relative '../lib/marathon'
+
+class DevRunner < Marathon::Runner
+  def test(suite='all')
+    rspec
+    say "Tests passing!"
+  end
+end
+
+if __FILE__ == $0
+  runner = DevRunner.new
+  runner.main(ARGV)
+end
