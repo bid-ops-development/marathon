@@ -4,17 +4,17 @@ module Marathon
       klass.uses :yarn, :bundle
     end
 
-    def rspec(command='')
-      bundle "exec rspec #{command}"
+    # ruby
+    RUBY_TOOLS = %w( rspec rake rails guard rubocop )
+    RUBY_TOOLS.each do |ruby_tool|
+      define_method(ruby_tool) do |command=''|
+        bundle "exec #{ruby_tool} #{command}"
+      end
     end
 
-    def rake(command='')
-      bundle "exec rake #{command}"
-    end
-
-    def rails(command='')
-      bundle "exec rails #{command}"
-    end
+    alias :cop :rubocop
+    
+    # js
 
     def jest(command='')
       yarn "run jest #{command}"

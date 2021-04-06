@@ -4,7 +4,8 @@ module Marathon
     def uses(*tools)
       tools.each do |tool|
         define_method(tool) do |command|
-          run "#{tool} #{command}"
+          tool_command = "#{tool} #{command}"
+          run tool_command.chomp
         end
       end
     end

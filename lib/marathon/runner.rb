@@ -6,12 +6,12 @@ require_relative "dsl"
 module Marathon
   class Runner
     extend DSL
-    include Wrappers
     include Basics
+    include Wrappers
 
     %w( setup check clean test start ).each do |phase|
       define_method(phase) do
-        warn "=== Implement a #{phase} strategy ==="
+        say "=== (TODO) Implement a #{phase} strategy ==="
       end
     end
 
@@ -49,7 +49,9 @@ module Marathon
         :available_commands,
         :main, :dispatch, :run,
         :say, :warn, :ok, :echo,
-        :rails, :jest, :rspec, :rake, :yarn, :bundle,
+        :yarn, :jest,
+        :rails, :jest, :rspec, :rake, :bundle,
+        :rubocop, :cop, :guard,
         :all, :help
       ]
       available = self.methods - Object.new.methods - boring_commands

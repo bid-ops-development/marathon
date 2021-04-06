@@ -37,7 +37,7 @@ RSpec.describe Marathon do
     end
     
     it "can relay a successful command" do
-      expect(Kernel).to receive(:system).with("echo 'hello world'")
+      expect(Kernel).to receive(:system).with("bash -c \"echo 'hello world'\"")
       executor.shell "echo 'hello world'"
     end
 
@@ -64,7 +64,7 @@ RSpec.describe Marathon do
 
     let(:executor) { double Marathon::Executor }
 
-    before { expect(subject).to receive(:executor).and_return(executor) }
+    before { allow(subject).to receive(:executor).and_return(executor) }
 
     describe 'main' do
       it 'relays first arg to subcommand and remaining args as a string' do
@@ -75,13 +75,6 @@ RSpec.describe Marathon do
       it 'relays to shell command' do
         expect(executor).to receive(:shell).with("bundle exec rspec --fail-fast")
         run.main ["rspec", "--fail-fast"]
-      end
-    end
-
-    describe 'basic utilities' do
-      it 'echoes' do
-        expect(executor).to receive(:shell).with("echo \"hello\"")
-        run.say 'hello'
       end
     end
 
@@ -117,6 +110,20 @@ RSpec.describe Marathon do
         it 'rails' do
           expect(executor).to receive(:shell).with("bundle exec rails some:task")
           run.rails 'some:task'
+        end
+
+        it 'rubocop' do
+          expect(executor).to receive(:shell).with("bundle exec rubocop -a")
+          run.cop '-a'
+        end
+
+        it 'guard' do
+          expect(executor).to receive(:shell).with("bundle exec guard init")
+          run.guard 'init'
+
+          # don't like the extra space here :/
+          expect(executor).to receive(:shell).with("bundle exec guard ")
+          run.guard
         end
       end
     end
