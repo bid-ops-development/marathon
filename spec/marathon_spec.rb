@@ -4,21 +4,19 @@ require "marathon"
 
 RSpec.describe Marathon do
   describe "run" do
-    # subject(:result) { Marathon.run command }
     context "true" do
       let(:command) { true }
-      it 'returns successfully' do
+      it "returns successfully" do
         result = Marathon.run command
-        expect(result).to be_successful
+        expect(result).to be_a(Marathon::Result)
       end
     end
 
     context "false" do
       let(:command) { false }
-      it 'throws an error' do
-        expect { Marathon.run command }.to raise_error(Marathon::Error)
+      it "throws an error" do
+        expect { Marathon.run command }.to raise_error(SystemExit, "Failed to execute false")
       end
-      # it { expect(result).not_to be_successful }
     end
   end
 end

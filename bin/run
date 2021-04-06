@@ -11,7 +11,7 @@ class MarathonDevRunner < Marathon::Runner
   end
 
   def check
-    cop
+    cop "-A"
     ok "Lint-free!"
   end
 end

@@ -36,7 +36,6 @@ module Marathon
 
     def main(arguments)
       command = arguments[0] || "all"
-      raise Marathon::Error, "No such command #{command}" unless respond_to?(command)
 
       if arguments.length > 1
         subcommand_arguments = arguments[1..-1]

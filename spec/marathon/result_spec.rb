@@ -4,14 +4,7 @@ require "spec_helper"
 
 RSpec.describe Marathon::Result do
   subject(:result) do
-    Marathon::Result.new(
-      output: "hello world",
-      successful: true
-    )
-  end
-
-  it "is successful" do
-    expect(result).to be_successful
+    Marathon::Result.new(output: "hello world")
   end
 
   it "has output" do

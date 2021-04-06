@@ -12,11 +12,7 @@ require_relative "marathon/runner"
 module Marathon
   class Error < StandardError; end
 
-  Result = Struct.new(:successful, :output, keyword_init: true) do
-    def successful?
-      !!successful
-    end
-  end
+  Result = Struct.new(:output, keyword_init: true)
 
   def self.run(command)
     Runner.new.send :dispatch, command

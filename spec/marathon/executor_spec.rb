@@ -8,21 +8,22 @@ RSpec.describe Marathon::Executor do
   end
 
   it "can relay a successful command" do
-    expect(Kernel).to receive(:system).with("bash -c \"echo 'hello world'\"")
-    executor.shell "echo 'hello world'"
+    status = double Process::Status, exitstatus: 0
+    expect(Open3).to receive(:capture3).with("bash -c \"true\"").and_return(["", "", status])
+    executor.shell "true" # , capture_output: false
   end
 
   describe "shell" do
     describe "invoking bash driver" do
       it "returns wrapped result" do
         result = subject.shell "echo 'hello world'", capture_output: true
-        expect(result).to be_successful
         expect(result.output).to eq "hello world"
       end
 
       it "returns wrapped error" do
-        result = subject.shell "false"
-        expect(result).not_to be_successful
+        expect do
+          subject.shell false
+        end.to raise_error(SystemExit, "Failed to execute false")
       end
     end
   end

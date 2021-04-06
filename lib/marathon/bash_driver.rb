@@ -1,33 +1,38 @@
 # frozen_string_literal: true
 
+require "open3"
+
 require "English"
 
-# A driver that implements #shell as local bash execute.
-# (The idea is to abstract how we actually execute a shell command
-# so that in theory we could do it differently, ie on a remote system
-# or in a container.)
-module BashDriver
-  def shell(command, capture_output: true)
-    output, success = execute_bash!(command, capture: capture_output)
-    result(success, output)
-  end
+module Marathon
+  # The default driver that implements #shell as local bash command execution (wrapped with `bash -c`).
+  class BashDriver
+    def run(command, capture_output: true)
+      puts "[Marathon::BashDriver] #{command}"
+      output, success = execute_bash! command
+      puts output unless capture_output
+      return build_result(output) if success
 
-  private
+      puts output
+      # error = "=== Failed to execute: #{command} ==="
+      # warn error
+      abort "Failed to execute #{command}"
+    end
 
-  def execute_bash!(command, capture:)
-    return ["", Kernel.system(bash(command))] unless capture
+    private
 
-    [`#{bash command}`, $CHILD_STATUS.exitstatus.zero?]
-  end
+    def execute_bash!(command)
+      cmd = bash command
+      stdout, _stderr, status = Open3.capture3(cmd)
+      [stdout, status.exitstatus.zero?]
+    end
 
-  def bash(command)
-    "bash -c \"#{command}\""
-  end
+    def bash(command)
+      "bash -c \"#{command}\""
+    end
 
-  def result(success, output)
-    Marathon::Result.new(
-      successful: success,
-      output: output.chomp
-    )
+    def build_result(output)
+      Marathon::Result.new(output: output.chomp)
+    end
   end
 end
