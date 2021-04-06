@@ -9,8 +9,8 @@ RSpec.describe Marathon::Executor do
 
   it "can relay a successful command" do
     status = double Process::Status, exitstatus: 0
-    expect(Open3).to receive(:capture3).with("bash -c \"true\"").and_return(["", "", status])
-    executor.shell "true" # , capture_output: false
+    expect(Open3).to receive(:capture2e).with("bash -c \"true\"").and_return(["", status])
+    executor.shell "true"
   end
 
   describe "shell" do

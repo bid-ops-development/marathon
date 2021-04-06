@@ -5,6 +5,18 @@ require_relative "../lib/marathon"
 
 # Tiny task runner for marathon itself
 class MarathonDevRunner < Marathon::Runner
+  def clean
+    # nothing to do
+  end
+
+  def start
+    say "Looking good!"
+  end
+
+  def setup
+    run "bin/setup"
+  end
+
   def test(_suite = "all")
     rspec
     ok "Tests passing!"
