@@ -1,4 +1,7 @@
+# frozen_string_literal: true
+
 module Marathon
+  # Provide class-level helpers for Runner
   module DSL
     # wrap a simple command directly
     def uses(*tools)

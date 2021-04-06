@@ -1,6 +1,9 @@
-require_relative 'bash_driver'
+# frozen_string_literal: true
 
-class Marathon::Executor
-  include BashDriver
+require_relative "bash_driver"
+
+module Marathon
+  class Executor
+    include BashDriver
+  end
 end
-

@@ -1,15 +1,17 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
 
-require_relative '../lib/marathon'
+require_relative "../lib/marathon"
 
-class DevRunner < Marathon::Runner
-  def test(suite='all')
+# Tiny task runner for marathon itself
+class MarathonDevRunner < Marathon::Runner
+  def test(_suite = "all")
     rspec
     say "Tests passing!"
   end
 end
 
-if __FILE__ == $0
-  runner = DevRunner.new
+if __FILE__ == $PROGRAM_NAME
+  runner = MarathonDevRunner.new
   runner.main(ARGV)
 end

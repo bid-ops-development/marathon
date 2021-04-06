@@ -1,17 +1,23 @@
+# frozen_string_literal: true
+
+require "English"
+
+# A driver that implements #shell as local bash execute.
+# (The idea is to abstract how we actually execute a shell command
+# so that in theory we could do it differently, ie on a remote system
+# or in a container.)
 module BashDriver
   def shell(command, capture_output: false)
-    output, success = execute_bash!(command, capture_output)
-    return result(success, output)
+    output, success = execute_bash!(command, capture: capture_output)
+    result(success, output)
   end
 
   private
 
-  def execute_bash!(command, capture = false)
-    success = false
-    output = ''
-    # bash_command = "bash -c \"#{command}\""
-    return ['', Kernel.system(bash command)] unless capture
-    [`#{bash command}`, $?.exitstatus.zero?]
+  def execute_bash!(command, capture: false)
+    return ["", Kernel.system(bash(command))] unless capture
+
+    [`#{bash command}`, $CHILD_STATUS.exitstatus.zero?]
   end
 
   def bash(command)
