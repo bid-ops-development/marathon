@@ -7,7 +7,12 @@ require_relative "../lib/marathon"
 class MarathonDevRunner < Marathon::Runner
   def test(_suite = "all")
     rspec
-    say "Tests passing!"
+    ok "Tests passing!"
+  end
+
+  def check
+    cop
+    ok "Lint-free!"
   end
 end
 

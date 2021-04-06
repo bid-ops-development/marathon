@@ -10,15 +10,15 @@ It is focused on building commands up compositionally, with a DSL to help simpli
 
 ## Usage
 
-**Start with a tiny `run` script.** Create a new file at `bin/run`:
+**First, install Marathon.** For this example add it to your Gemfile and run `bundle install`.
+
+**Now start with a tiny `run` script.** Create a new file at `bin/run`:
 
 ```
 #!/usr/bin/env ruby
 
-require 'bundler/inline'
-gemfile do
-  gem 'marathon', git: 'https://github.com/bid-ops-development/marathon'
-end
+require 'bundler/setup'
+require 'marathon'
 
 class MyCustomRunner < Marathon::Runner
   def test

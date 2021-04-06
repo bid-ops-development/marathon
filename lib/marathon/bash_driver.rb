@@ -7,14 +7,14 @@ require "English"
 # so that in theory we could do it differently, ie on a remote system
 # or in a container.)
 module BashDriver
-  def shell(command, capture_output: false)
+  def shell(command, capture_output: true)
     output, success = execute_bash!(command, capture: capture_output)
     result(success, output)
   end
 
   private
 
-  def execute_bash!(command, capture: false)
+  def execute_bash!(command, capture:)
     return ["", Kernel.system(bash(command))] unless capture
 
     [`#{bash command}`, $CHILD_STATUS.exitstatus.zero?]
