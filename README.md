@@ -4,23 +4,9 @@ Welcome to Marathon!
 
 ## Synopsis
 
-Marathon is a tool to help you quickly create task runners for your application.
+Marathon is a tool to help you quickly create task runners for your application. 
 
-## Installation
-
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'marathon'
-```
-
-And then execute:
-
-    $ bundle install
-
-Or install it yourself as:
-
-    $ gem install marathon
+It is focused on building commands up compositionally, with a DSL to help simplify and document important commands for your application and their usage.
 
 ## Usage
 
@@ -56,7 +42,13 @@ You should now be able to `bin/run test` and see Marathon execute RSpec. (Note: 
   end
 ```
 
-However, `rake` itself has a wrapper -- so that we could also write something here like `rake "test:everything"`.
+However, `rake` itself has a wrapper -- so that we could finally write something here like `rake "test:everything"`:
+
+```
+  def test
+    rake "test:everything"
+  end
+```
 
 **Some more tips.**
 
